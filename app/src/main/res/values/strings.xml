@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Guardian Reader</string>
+    <string name="generic_error">Something went wrong!</string>
+    <string name="retry">RETRY</string>
+</resources>

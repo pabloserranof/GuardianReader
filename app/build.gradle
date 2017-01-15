@@ -1,0 +1,158 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.7'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+// Needed for dagger 2
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "com.pabloserrano.guardianreader"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+}
+
+ext {
+    supportLibraryVersion = '25.1.0'
+    retrofitVersion = '2.1.0'
+    daggerVersion = '2.2'
+    timberVersion = '4.1.2'
+    butterknifeVersion = '8.0.1'
+    gsonVersion = '2.6.1'
+    picassoVersion = '2.5.2'
+    okhttpVersion = '3.4.2'
+    picassoHttpDownloaderVersion = '1.1.0'
+
+    // Testing
+    junitVersion = '4.12'
+    mockitoVersion = '2.2.11'
+    mockitoAllVersion = '1.10.19'
+    daggerMockVersion = '0.6.3'
+    runnerVersion = '0.5'
+    espressoVersion = '2.2.2'
+    dexmakerVersion = '1.2'
+    guavaVersion = '20.0'
+    hamcrestVersion = '1.3'
+    leakcanaryVersion = '1.5'
+}
+
+dependencies {
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Dependencies for local unit tests
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testCompile "org.mockito:mockito-all:$mockitoAllVersion"
+    testCompile "org.hamcrest:hamcrest-all:$hamcrestVersion"
+
+    // Android Testing Support Library's runner and rules
+    androidTestCompile "com.android.support.test:runner:$runnerVersion"
+    androidTestCompile "com.android.support.test:rules:$runnerVersion"
+
+    // Dependencies for Android unit tests
+    androidTestCompile "junit:junit:$junitVersion"
+    androidTestCompile "org.mockito:mockito-core:$mockitoAllVersion"
+    androidTestCompile "com.google.dexmaker:dexmaker:$dexmakerVersion"
+    androidTestCompile ("com.google.dexmaker:dexmaker-mockito:$dexmakerVersion"){
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+    }
+
+    // Instrumetation Tests
+    androidTestCompile "com.android.support.test:runner:$runnerVersion"
+    // Set this dependency to use JUnit 4 rules
+    androidTestCompile "com.android.support.test:rules:$runnerVersion"
+    // Set this dependency to build and run Espresso tests
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestCompile "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:$espressoVersion"
+    // Support annotations
+    androidTestCompile "com.android.support:support-annotations:$supportLibraryVersion"
+    // Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$espressoVersion") {
+        exclude module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'recyclerview-v7'
+    }
+
+    // Support Library
+    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
+    compile "com.android.support:design:$supportLibraryVersion"
+    compile "com.android.support:support-v4:$supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$supportLibraryVersion"
+    compile "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
+    compile "com.google.guava:guava:$guavaVersion"
+
+    // Resolve conflicts between main and test APK:
+    androidTestCompile "com.android.support:support-annotations:$supportLibraryVersion"
+    androidTestCompile "com.android.support:support-v4:$supportLibraryVersion"
+    androidTestCompile "com.android.support:recyclerview-v7:$supportLibraryVersion"
+    androidTestCompile "com.android.support:appcompat-v7:$supportLibraryVersion"
+    androidTestCompile "com.android.support:design:$supportLibraryVersion"
+
+    // Third party libraries
+
+    // Logging
+    compile "com.jakewharton.timber:timber:$timberVersion"
+
+    // ButterKnife
+    compile "com.jakewharton:butterknife:$butterknifeVersion"
+    apt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
+    // Json parsing
+    compile "com.google.code.gson:gson:$gsonVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    // Retrofit
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+
+    // OKhttp
+    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
+    // Picasso
+    compile "com.squareup.picasso:picasso:$picassoVersion"
+    compile "com.jakewharton.picasso:picasso2-okhttp3-downloader:$picassoHttpDownloaderVersion"
+
+    // Dagger
+    compile "com.google.dagger:dagger:$daggerVersion"
+    apt "com.google.dagger:dagger-compiler:$daggerVersion"
+    provided 'javax.annotation:jsr250-api:1.0'
+    androidTestCompile "com.github.fabioCollini:DaggerMock:$daggerMockVersion"
+    androidTestApt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // leakcanary
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
+}
+
+configurations.all {
+    resolutionStrategy.force "com.android.support:support-annotations:$supportLibraryVersion"
+}
