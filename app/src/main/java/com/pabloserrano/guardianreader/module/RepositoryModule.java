@@ -16,13 +16,13 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    public GuardianNewsRepositoryImpl provideItemRepository(ApiService apiService) {
+    public GuardianNewsRepositoryImpl provideRepository(ApiService apiService) {
         return new GuardianNewsRepositoryImpl(new GuardianNewsLocalDataSource(), new GuardianNewsRemoteDataSource(apiService));
     }
 
     @Singleton
     @Provides
-    public MainPresenterImp provideMainPresenterHeroes(GuardianNewsRepositoryImpl guardianNewsRepository) {
+    public MainPresenterImp provideMainPresenterImp(GuardianNewsRepositoryImpl guardianNewsRepository) {
         return new MainPresenterImp(guardianNewsRepository);
     }
 }
