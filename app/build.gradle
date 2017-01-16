@@ -4,13 +4,11 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.7'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
-// Needed for dagger 2
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
