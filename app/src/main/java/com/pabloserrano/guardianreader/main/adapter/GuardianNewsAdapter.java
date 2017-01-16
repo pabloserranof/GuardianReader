@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class GuardianNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class GuardianNewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
   private final MainPresenterImp presenter;
   private final List<Result> newsList;
@@ -44,15 +44,15 @@ public class GuardianNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
   }
 
   @Override
-  public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view =
         LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_news_list, parent, false);
     return new NewsViewHolder(view, presenter);
   }
 
   @Override
-  public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-    NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
+  public void onBindViewHolder(NewsViewHolder holder, int position) {
+    NewsViewHolder newsViewHolder = holder;
     Result result = newsList.get(position);
     newsViewHolder.render(result);
   }
